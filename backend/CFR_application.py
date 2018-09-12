@@ -67,11 +67,26 @@ def showAgeHTMLJson():
             else :
                 return render_template('age.html')
         else:
-            return (a)
-        """
-        if(int(age[-1:]) < 6):
-            return render_template('age.html')
-        """
+            return ('a')
+
+
+@app.route('/faceCount/')
+def showfaceCountHTMLJson():
+    with open(os.getcwd()+'/jsons/result_me_front1.json') as data_file:
+        data = json.load(data_file)
+        faceCount = int(data['info']['faceCount'])
+
+        gender = data['faces'][0]['gender']['value'] #i로 변해야해
+        age = data['faces'][0]['age']['value'] #i로 변해야해
+
+        if((gender == "child") or (int(age[-1:]) < 6)):
+            if(gender == "child"):
+                return render_template('gender.html')
+            else :
+                return render_template('age.html')
+        else:
+            return ('a')
+
 
 if __name__ == '__main__':
     app.debug = True
