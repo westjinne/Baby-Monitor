@@ -1,1 +1,0 @@
-{"info":{"size":{"width":720,"height":960},"faceCount":1},"faces":[{"roi":{"x":7,"y":302,"width":363,"height":363},"landmark":null,"gender":{"value":"female","confidence":0.999937},"age":{"value":"13~17","confidence":1.0},"emotion":{"value":"neutral","confidence":0.997258},"pose":{"value":"false_face","confidence":0.863868}}]}
