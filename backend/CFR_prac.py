@@ -21,7 +21,7 @@ def main():
         response = requests.post(url,  files=files, headers=headers)
         rescode = response.status_code
         if(rescode == 200):
-            f = open(jsonpath+imgfile[8:-5]+".json", "w")
+            f = open(jsonpath+imgfile[:-5]+".json", "w")
             f.write(response.text)
             f.close()
         else:
