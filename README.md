@@ -1,2 +1,2 @@
-# Baby-Monitor
-Baby-Monitor's GitHub repository
+# Baby Monitor
+Baby Monitor project 's GitHub repository
