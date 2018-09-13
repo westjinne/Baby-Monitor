@@ -1,8 +1,10 @@
 import os
 import sys
 import requests
-client_id = "WRKZl5L8otsA0Oolnv91"
-client_secret = "qVUP4ef0kW"
+import json
+
+client_id = json.loads(open('client_secret.json','r').read())['cfr']['client_id']
+client_secret = json.loads(open('client_secret.json','r').read())['cfr']['client_secret']
 url = "https://openapi.naver.com/v1/vision/face"
 #얼굴감지
 
