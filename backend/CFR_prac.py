@@ -7,20 +7,26 @@ url = "https://openapi.naver.com/v1/vision/face"
 #얼굴감지
 
 
+# 얼굴 인식 결과 JSON 파일 생성하는 함수
 def main():
-    fileroot = os.getcwd()
-    files = {'image': open(fileroot+'/img/pic03.jpeg', 'rb')}
-    savefileroot = os.getcwd()+'/jsons'
-    headers = {'X-Naver-Client-Id': client_id, 'X-Naver-Client-Secret': client_secret}
-    response = requests.post(url,  files=files, headers=headers)
-    rescode = response.status_code
-    if(rescode == 200):
-        #print (response.text)
-        f = open(savefileroot+"/result_pic03.json", "w")
-        f.write(response.text)
-        f.close()
-    else:
-        print("Error Code:" + rescode)
+    filepath = os.getcwd() + "/img/"
+    jsonpath = os.getcwd() + "/json/"
+    if not os.path.exists(jsonpath):
+        os.makedirs(jsonpath)
+
+    for imgfile in os.listdir(filepath):
+        files = {'image': open(filepath+imgfile, 'rb')}
+        print(filepath+imgfile)
+        headers = {'X-Naver-Client-Id': client_id, 'X-Naver-Client-Secret': client_secret}
+        response = requests.post(url,  files=files, headers=headers)
+        rescode = response.status_code
+        if(rescode == 200):
+            #print (response.text)
+            f = open(jsonpath+imgfile[8:-5]+".json", "w")
+            f.write(response.text)
+            f.close()
+        else:
+            print("Error Code:" + rescode)
 
 
 main()
