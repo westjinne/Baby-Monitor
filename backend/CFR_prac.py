@@ -16,12 +16,11 @@ def main():
 
     for imgfile in os.listdir(filepath):
         files = {'image': open(filepath+imgfile, 'rb')}
-        print(filepath+imgfile)
+        #print(filepath+imgfile)
         headers = {'X-Naver-Client-Id': client_id, 'X-Naver-Client-Secret': client_secret}
         response = requests.post(url,  files=files, headers=headers)
         rescode = response.status_code
         if(rescode == 200):
-            #print (response.text)
             f = open(jsonpath+imgfile[8:-5]+".json", "w")
             f.write(response.text)
             f.close()
