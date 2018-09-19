@@ -31,3 +31,5 @@ def main():
 
 
 main()
+
+# collection.update() 사용해서 new img occur 시 json 파일 생성
