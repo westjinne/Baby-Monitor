@@ -2,34 +2,45 @@ import os
 import sys
 import requests
 import json
+import time
+from flask import jsonify
 
 client_id = json.loads(open('client_secret.json','r').read())['cfr']['client_id']
 client_secret = json.loads(open('client_secret.json','r').read())['cfr']['client_secret']
 url = "https://openapi.naver.com/v1/vision/face"
-#얼굴감지
 
 
-# 얼굴 인식 결과 JSON 파일 생성하는 함수
 def main():
-    filepath = os.getcwd() + "/img/"
-    jsonpath = os.getcwd() + "/json/"
-    if not os.path.exists(jsonpath):
-        os.makedirs(jsonpath)
+    filepath = os.getcwd() + "/img01/" #rasp용으로 file dir 수정
 
-    for imgfile in os.listdir(filepath):
-        files = {'image': open(filepath+imgfile, 'rb')}
-        #print(filepath+imgfile)
-        headers = {'X-Naver-Client-Id': client_id, 'X-Naver-Client-Secret': client_secret}
-        response = requests.post(url,  files=files, headers=headers)
-        rescode = response.status_code
-        if(rescode == 200):
-            f = open(jsonpath+imgfile[:-5]+".json", "w")
-            f.write(response.text)
-            f.close()
-        else:
-            print("Error Code:" + rescode)
+    before = dict ([f, None] for f in os.listdir(filepath))
+    while 1:
+        time.sleep(0.5)
+
+        for imgfile in before:
+            files = {'image': open(filepath+imgfile, 'rb')}
+
+            headers = {'X-Naver-Client-Id': client_id, 'X-Naver-Client-Secret': client_secret}
+            response = requests.post(url,  files=files, headers=headers)
+            rescode = response.status_code
+
+            if(rescode == 200):
+                result = response.json()
+                faceNum = result["info"]["faceCount"]
+
+                for i in range(faceNum):
+                    gender = result["faces"][i]["gender"]["value"]
+                    age = int(result["faces"][i]["age"]["value"][-1:])
+                    value = result["faces"][i]["age"]["value"]
+                    print(value)
+                    print(type(value))
+                    line = value.split("~")
+                    print(line)
+                    print(line[1])
+
+                    #if((gender == "child") or (age < 6)):
+                        #r = requests.put("http://babymonitor.pythonanywhere.com/api/update/camera/1", json = {"camId": 1, "gender": gender, "age": age})
+                        #print("gender: "+gender+", age: " + str(age))
 
 
 main()
-
-# collection.update() 사용해서 new img occur 시 json 파일 생성
